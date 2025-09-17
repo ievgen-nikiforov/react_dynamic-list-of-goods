@@ -6,11 +6,12 @@ import { Good } from './types/Good';
 
 export const App: React.FC = () => {
   const [goods, setGoods] = React.useState<Good[]>([]);
+  const [error, setError] = React.useState<Error | null>(null);
   function showGoods(getGoods: () => Promise<Good[]>) {
     getGoods()
       .then(newGoods => setGoods(newGoods))
       .catch(error => {
-        setGoods([]);
+        setError(error);
       });
   }
   return (
@@ -42,6 +43,7 @@ export const App: React.FC = () => {
       </button>
 
       <GoodsList goods={goods} />
+      {error && <div>Error</div>}
     </div>
   );
 };
